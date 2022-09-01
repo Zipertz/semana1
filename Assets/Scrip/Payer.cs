@@ -72,6 +72,8 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_Saltar);
             puedeSaltar = false;
 
+         
+
         }
    
         else
