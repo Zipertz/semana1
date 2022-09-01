@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Payer : MonoBehaviour
@@ -15,7 +16,10 @@ public class Payer : MonoBehaviour
     const int ANIMATION_CORRER = 2;
     const int ANIMATION_ATACAR = 3;
     const int ANIMATION_Saltar = 4;
+    const int ANIMATION_MUERTE = 5;
     bool puedeSaltar = true;
+
+    private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +60,7 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_CAMINAR);
         }
 
-        else if (Input.GetKey(KeyCode.Z))
+        else if (Input.GetKeyDown(KeyCode.Z))
         {
             ChangeAnimation(ANIMATION_ATACAR);
 
@@ -68,10 +72,6 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_Saltar);
             puedeSaltar = false;
 
-           
-
-
-
         }
    
         else
@@ -79,8 +79,13 @@ public class Payer : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
             ChangeAnimation(ANIMATION_QUIETO);
         }
+        if (Input.GetKeyDown(KeyCode.P)) animator.SetTrigger("Muerto");
+        {
+
+        }
     }
 
+ 
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -89,6 +94,38 @@ public class Payer : MonoBehaviour
         {
             Debug.Log("Estas muerto");
         }
+        if (other.gameObject.name== "DarkHole")
+        {
+            if (lastCheckPointPosition !=null)
+            {
+                transform.position = lastCheckPointPosition;
+            }
+            
+        }
+       
+    
+        if (other.gameObject.name == "PinchosMuerte") 
+        {
+            animator.SetTrigger("Muerto");
+
+
+
+            if (lastCheckPointPosition != null)
+            {
+
+                transform.position = lastCheckPointPosition;
+                ChangeAnimation(ANIMATION_QUIETO);
+            }
+
+        }
+    }
+
+
+
+     void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Onco");
+        lastCheckPointPosition = transform.position;
     }
 
 
@@ -105,4 +142,5 @@ public class Payer : MonoBehaviour
 
     }
 
+   
 }
