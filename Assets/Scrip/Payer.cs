@@ -22,7 +22,7 @@ public class Payer : MonoBehaviour
     const int ANIMATION_MUERTE = 5;
     bool puedeSaltar = false;
     int aux = 0;
-
+    int au = 0;
     public Transform PuntoDisparo;
     private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
@@ -38,18 +38,19 @@ public class Payer : MonoBehaviour
     void Update()
     {
        
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            ChangeAnimation(ANIMATION_QUIETO);  
+           // rb.velocity = new Vector2(0, rb.velocity.y);
+            //ChangeAnimation(ANIMATION_QUIETO);  
 
-        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X))
-        {
-            rb.velocity = new Vector2(-vcorrer, rb.velocity.y);
+      //  if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X))
+        //{
+            rb.velocity = new Vector2 (velocity*2,0);
+          //rb.velocity = new Vector2(-vcorrer, rb.velocity.y);
            // sr.flipX = true;
             
             ChangeAnimation(ANIMATION_CORRER);
-        }
+       // }
 
-        else if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
+         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
         {
             rb.velocity = new Vector2(vcorrer, rb.velocity.y);
            // sr.flipX = false;
@@ -82,13 +83,17 @@ public class Payer : MonoBehaviour
            
 
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+         if (Input.GetKeyDown(KeyCode.C) && au<5)
+        
+           Instantiate (bullet,PuntoDisparo.position,PuntoDisparo.rotation);
+          
         {
             
-        Instantiate (bullet,PuntoDisparo.position,PuntoDisparo.rotation);
+        
+
 
         }
-         else if (Input.GetKeyDown(KeyCode.Space)  && aux<2)
+          if (Input.GetKeyDown(KeyCode.Space)  && aux<2)
         {
             
             rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
@@ -116,7 +121,8 @@ public class Payer : MonoBehaviour
         aux=0;
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Estas muerto");
+            animator.SetTrigger("Muerto");
+           ChangeAnimation(ANIMATION_MUERTE) ;
         }
         if (other.gameObject.name== "DarkHole")
         {

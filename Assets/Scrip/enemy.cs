@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class enemy : MonoBehaviour
 {
-    public float speed; // Velocidad del enemigo
-    private Rigidbody2D rb; // Cuerpo “físico” de los enemigos
+    SpriteRenderer sr;
+    Animator animator;
+    public float velocity;
+    const int ANIMATION_CAMINAR = 1;
+
+    private Rigidbody2D rb; // Cuerpo ï¿½fï¿½sicoï¿½ de los enemigos
     private int direction;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        direction = 1;
-
+        sr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position[0] < 5)
-        {
-            direction = 1; // Se moverán hacia la derecha
-        }
-        else if (transform.position[0] > 15)
-        {
-            
-        direction = -1; // Se moverán hacia la izquierda
-        }
-        rb.velocity = new Vector3(direction * speed, 0.0f, 0.0f);
-    }
+        rb.velocity = new Vector2 (-velocity,0);
+        ChangeAnimation(ANIMATION_CAMINAR);
 
+    }
+    private void ChangeAnimation(int animation)
+    {
+        animator.SetInteger("Estado0", animation);
+       
+
+    }
 }
 

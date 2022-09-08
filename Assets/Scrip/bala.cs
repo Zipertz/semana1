@@ -8,7 +8,7 @@ public class bala : MonoBehaviour
     private GameManagerController gameManager;
     private Rigidbody2D rb;
     // Start is called before the first frame update
-
+const int ANIMATION_CAMINAR = 1;
    
     void Start()
     {

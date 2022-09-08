@@ -4,18 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 public class GameManagerController : MonoBehaviour
 {
-
+    public Text BalasText;
     public Text scoreText;
     public Text livesText;
+    
     private int score;
     private int lives;
+    private int balas;
     // Start is called before the first frame update
     void Start()
     {
         score=0;
         lives=3;
+        balas=5;
         PrintScreenScore();
         PrintScreenLives();
+        PrintScreenBalas();
     }
 
     public int Score(){
@@ -26,6 +30,11 @@ public class GameManagerController : MonoBehaviour
       public int Lives(){
 
         return lives;
+
+    }
+      public int Balas(){
+
+        return balas;
 
     }
    public void GanarPuntos(int puntos){
@@ -39,6 +48,12 @@ public class GameManagerController : MonoBehaviour
     PrintScreenLives();
    }
 
+    public void PerderBalas(){
+        
+        
+        balas -=1;
+        PrintScreenBalas();
+    }
    private void PrintScreenScore(){
         scoreText.text = "Puntaje: " + score;
 
@@ -46,6 +61,11 @@ public class GameManagerController : MonoBehaviour
 
    private void PrintScreenLives(){
         livesText.text = "Vida: " + lives;
+
+   }
+
+   private void PrintScreenBalas(){
+       BalasText .text = "Balas: " + balas;
 
    }
 }
