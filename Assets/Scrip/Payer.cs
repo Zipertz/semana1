@@ -9,6 +9,10 @@ public class Payer : MonoBehaviour
     public float velocity = 10;
     public float vcorrer = 20;
 
+    public AudioClip jumpclip;
+    public AudioClip ComerHongoclip;
+    AudioSource audioSource;
+
     public GameObject bullet;
     Rigidbody2D rb;
     
@@ -24,6 +28,7 @@ public class Payer : MonoBehaviour
     int aux = 0;
     int au = 0;
     public Transform PuntoDisparo;
+    public Transform transformScala ;
     private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
     void Start()
@@ -32,28 +37,30 @@ public class Payer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        transformScala = GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
        
-           // rb.velocity = new Vector2(0, rb.velocity.y);
-            //ChangeAnimation(ANIMATION_QUIETO);  
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            ChangeAnimation(ANIMATION_QUIETO);  
 
-      //  if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X))
-        //{
+       if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X))
+        {
             rb.velocity = new Vector2 (velocity*2,0);
-          //rb.velocity = new Vector2(-vcorrer, rb.velocity.y);
-           // sr.flipX = true;
+          rb.velocity = new Vector2(-vcorrer, rb.velocity.y);
+            sr.flipX = true;
             
             ChangeAnimation(ANIMATION_CORRER);
-       // }
+        }
 
          if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
         {
             rb.velocity = new Vector2(vcorrer, rb.velocity.y);
-           // sr.flipX = false;
+            sr.flipX = false;
             
             ChangeAnimation(ANIMATION_CORRER);
         }
@@ -61,7 +68,7 @@ public class Payer : MonoBehaviour
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(velocity, rb.velocity.y);
-           // sr.flipX = false;
+           sr.flipX = false;
             
             ChangeAnimation(ANIMATION_CAMINAR);
             transform.eulerAngles = new Vector3(0,00,0);
@@ -73,7 +80,7 @@ public class Payer : MonoBehaviour
             
             
            transform.eulerAngles = new Vector3(0,180,0);
-           //sr.flipX = true;
+           sr.flipX = true;
            ChangeAnimation(ANIMATION_CAMINAR);
         }
 
@@ -95,7 +102,7 @@ public class Payer : MonoBehaviour
         }
           if (Input.GetKeyDown(KeyCode.Space)  && aux<2)
         {
-            
+            audioSource.PlayOneShot(jumpclip);
             rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
             ChangeAnimation(ANIMATION_Saltar);
             puedeSaltar = true;
@@ -132,6 +139,12 @@ public class Payer : MonoBehaviour
             }
             
         }
+        if (other.gameObject.name == "Hongo"){
+
+            audioSource.PlayOneShot(ComerHongoclip);
+            Destroy(other.gameObject);
+            
+        }
        
     }
 
@@ -142,7 +155,7 @@ public class Payer : MonoBehaviour
         Debug.Log("Onco");
         if(other.gameObject.name == "Flecha_Cpoint"){
         lastCheckPointPosition = transform.position;
-    }
+         }
         if(other.gameObject.name == "Cartel_Cpoint"){
             lastCheckPointPosition = transform.position;
         }
@@ -163,4 +176,5 @@ public class Payer : MonoBehaviour
 
     }
 }
+
     
