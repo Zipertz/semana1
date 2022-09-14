@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using TMPro;
 public class GameManagerController : MonoBehaviour
 {
     public Text BalasText;
@@ -21,6 +23,17 @@ public class GameManagerController : MonoBehaviour
         PrintScreenLives();
         PrintScoreInScreen();
     }
+
+    public void SaveGame(){
+
+
+    }
+
+    public void LoadGame(){
+
+        
+    }
+
 
     public int Score(){
 
@@ -48,6 +61,11 @@ public class GameManagerController : MonoBehaviour
     PrintScreenLives();
    }
 
+    public void perderBala(int balas){
+     this.balas-=1;
+     PrintScoreInScreen();
+    }
+
    
    private void PrintScreenScore(){
         scoreText.text = "Puntaje: " + score;
@@ -59,13 +77,9 @@ public class GameManagerController : MonoBehaviour
 
    }
 
-    public void perderBala(int balas){
-        score-=1;
-        PrintScoreInScreen();
-    }
-    
+  
     private void PrintScoreInScreen(){
-        scoreText.text = "Balas: " + score;
+        BalasText.text = "Balas: " + balas;
     }
 }
 

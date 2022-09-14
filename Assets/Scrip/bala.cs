@@ -7,12 +7,20 @@ public class bala : MonoBehaviour
     public float Speed;
     private GameManagerController gameManager;
     private Rigidbody2D rb;
+    public float velocity = 20;
     // Start is called before the first frame update
-const int ANIMATION_CAMINAR = 1;
-   
+
+   public void SetRightDirection(){
+        Speed = velocity;
+    }
+    public void SetLeftDirection(){
+        Speed = -velocity;
+    }
+
+
     void Start()
     {
-        gameManager = FindObjectOfType<GameManagerController>();
+       gameManager = FindObjectOfType<GameManagerController>();
         rb = GetComponent<Rigidbody2D>();
         Destroy(this.gameObject,5);
     }
@@ -20,22 +28,16 @@ const int ANIMATION_CAMINAR = 1;
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = transform.right * Speed;
+        rb.velocity = new Vector2(Speed,0);
     }
 
-     void OnCollisionEnter2D(Collision2D other)
-    {
-        
-      
-        if (other.gameObject.tag == "Enemy")
-        {
+    void OnCollisionEnter2D(Collision2D other){
+        if(other.gameObject.tag =="Enemy" ){
             Destroy(other.gameObject);
             Destroy(this.gameObject);
             gameManager.GanarPuntos(10);
-            
-            
+           
         }
-       
-       
     }
+     
 }

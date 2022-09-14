@@ -24,11 +24,10 @@ public class Payer : MonoBehaviour
     const int ANIMATION_ATACAR = 3;
     const int ANIMATION_Saltar = 4;
     const int ANIMATION_MUERTE = 5;
-    bool puedeSaltar = false;
+    //bool puedeSaltar = false;
     int aux = 0;
-    int au = 0;
-    public Transform PuntoDisparo;
-    public Transform transformScala ;
+    int aux1 = 0;
+   
     private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
     void Start()
@@ -38,7 +37,7 @@ public class Payer : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        transformScala = GetComponent<Transform>();
+       // transformScala = GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -47,10 +46,28 @@ public class Payer : MonoBehaviour
        
             rb.velocity = new Vector2(0, rb.velocity.y);
             ChangeAnimation(ANIMATION_QUIETO);  
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rb.velocity = new Vector2(velocity, rb.velocity.y);
+           sr.flipX = false;
+            
+            ChangeAnimation(ANIMATION_CAMINAR);
+            
+        }
+         if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rb.velocity = new Vector2(-velocity, rb.velocity.y);
+            
+            
+            
+           
+           sr.flipX = true;
+           ChangeAnimation(ANIMATION_CAMINAR);
+        }
 
        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X))
         {
-            rb.velocity = new Vector2 (velocity*2,0);
+            
           rb.velocity = new Vector2(-vcorrer, rb.velocity.y);
             sr.flipX = true;
             
@@ -65,24 +82,7 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_CORRER);
         }
 
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(velocity, rb.velocity.y);
-           sr.flipX = false;
-            
-            ChangeAnimation(ANIMATION_CAMINAR);
-            transform.eulerAngles = new Vector3(0,00,0);
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.velocity = new Vector2(-velocity, rb.velocity.y);
-            
-            
-            
-           transform.eulerAngles = new Vector3(0,180,0);
-           sr.flipX = true;
-           ChangeAnimation(ANIMATION_CAMINAR);
-        }
+         
 
         else if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -90,25 +90,46 @@ public class Payer : MonoBehaviour
            
 
         }
-         if (Input.GetKeyDown(KeyCode.C) && au<5)
-        
-           Instantiate (bullet,PuntoDisparo.position,PuntoDisparo.rotation);
-          
-        {
-            
-        
+         if (Input.GetKeyUp(KeyCode.C) && aux1<5){
+             var game = FindObjectOfType<GameManagerController>();
+            //Crear escudo
+               if(sr.flipX == false){
+               
+                
+                var shieldPosition = transform.position + new Vector3(1,0,0);
+                var gb = Instantiate(bullet,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala>();
+                controller.SetRightDirection(); 
+                game.perderBala(5);
+                aux1++;
+             }
+             if(sr.flipX==true){
+                
+                
+                var shieldPosition = transform.position + new Vector3(-1,0,0);
+                var gb = Instantiate(bullet,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala>();
+                controller.SetLeftDirection(); 
+                game.perderBala(5);
+                aux1++;
+             }
+             }
+              else if(aux==1){
+                ChangeAnimation(ANIMATION_Saltar);
+            } 
 
 
-        }
           if (Input.GetKeyDown(KeyCode.Space)  && aux<2)
         {
             audioSource.PlayOneShot(jumpclip);
-            rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0,JumpForce),ForceMode2D.Impulse);
             ChangeAnimation(ANIMATION_Saltar);
-            puedeSaltar = true;
             aux++;
-            
-            
+
 
         }
        
@@ -124,7 +145,7 @@ public class Payer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        puedeSaltar = false;
+        //puedeSaltar = false;
         aux=0;
         if (other.gameObject.tag == "Enemy")
         {
