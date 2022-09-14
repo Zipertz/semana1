@@ -19,7 +19,7 @@ public class GameManagerController : MonoBehaviour
         balas=5;
         PrintScreenScore();
         PrintScreenLives();
-        PrintScreenBalas();
+        PrintScoreInScreen();
     }
 
     public int Score(){
@@ -48,12 +48,7 @@ public class GameManagerController : MonoBehaviour
     PrintScreenLives();
    }
 
-    public void PerderBalas(){
-        
-        
-        balas -=1;
-        PrintScreenBalas();
-    }
+   
    private void PrintScreenScore(){
         scoreText.text = "Puntaje: " + score;
 
@@ -64,8 +59,16 @@ public class GameManagerController : MonoBehaviour
 
    }
 
-   private void PrintScreenBalas(){
-       BalasText .text = "Balas: " + balas;
-
-   }
+    public void perderBala(int balas){
+        score-=1;
+        PrintScoreInScreen();
+    }
+    
+    private void PrintScoreInScreen(){
+        scoreText.text = "Balas: " + score;
+    }
 }
+
+
+
+
