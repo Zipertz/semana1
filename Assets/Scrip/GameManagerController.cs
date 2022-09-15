@@ -35,7 +35,7 @@ public class GameManagerController : MonoBehaviour
 
 
     public void SaveGame(){
-        var filePath = Application.persistentDataPath + "/save.dat";
+        var filePath = Application.persistentDataPath + "/semana2.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -54,7 +54,7 @@ public class GameManagerController : MonoBehaviour
     }
 
     public void LoadGame(){
-            var filePath = Application.persistentDataPath + "/save.dat";
+            var filePath = Application.persistentDataPath + "/semana2.dat";
         FileStream file;
 
         if(File.Exists(filePath)){

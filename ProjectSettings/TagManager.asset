@@ -10,6 +10,9 @@ TagManager:
   - Escalera
   - Gravedad
   - moneda
+  - moneda2
+  - moneda3
+  - final
   layers:
   - Default
   - TransparentFX

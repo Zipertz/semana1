@@ -218,7 +218,7 @@ public class Payer : MonoBehaviour
             audioSource.PlayOneShot(ComerHongoclip);
             Destroy(other.gameObject);
             
-        }
+        } 
        
     }
 
@@ -236,9 +236,32 @@ public class Payer : MonoBehaviour
         if(other.gameObject.tag == "moneda" ){
             audioSource.PlayOneShot(coin);
             Destroy(other.gameObject);
-            gameManager.GanarPuntos(80);
+            gameManager.GanarPuntos(10);
             gameManager.SaveGame();
 
+        }
+         if(other.gameObject.tag == "moneda2" ){
+            audioSource.PlayOneShot(coin);
+            Destroy(other.gameObject);
+            gameManager.GanarPuntos(20);
+            gameManager.SaveGame();
+
+        }
+         if(other.gameObject.tag == "moneda3" ){
+            audioSource.PlayOneShot(coin);
+            Destroy(other.gameObject);
+            gameManager.GanarPuntos(30);
+            gameManager.SaveGame();
+
+        }
+        if (other.gameObject.tag == "final")    
+        {
+           
+           Destroy(other.gameObject);
+           
+            gameManager.SaveGame();
+           
+           
         }
 
     }
