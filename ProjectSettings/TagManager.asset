@@ -7,6 +7,9 @@ TagManager:
   - CheckPoint
   - Trap
   - Enemy
+  - Escalera
+  - Gravedad
+  - moneda
   layers:
   - Default
   - TransparentFX

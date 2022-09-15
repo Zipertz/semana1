@@ -36,6 +36,7 @@ public class bala : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject);
             gameManager.GanarPuntos(10);
+            
            
         }
     }

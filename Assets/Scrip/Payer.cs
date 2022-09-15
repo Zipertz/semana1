@@ -11,11 +11,17 @@ public class Payer : MonoBehaviour
 
     public AudioClip jumpclip;
     public AudioClip ComerHongoclip;
+    public AudioClip coin;
     AudioSource audioSource;
 
     public GameObject bullet;
     Rigidbody2D rb;
-    
+    public BoxCollider2D platformGround;
+    private int escalable = 0;
+    private Transform tras;
+
+    public static bool growUp;
+
     SpriteRenderer sr;
     Animator animator;
     const int ANIMATION_QUIETO = 0;
@@ -27,16 +33,19 @@ public class Payer : MonoBehaviour
     //bool puedeSaltar = false;
     int aux = 0;
     int aux1 = 0;
-   
+    private GameManagerController gameManager;
     private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
     void Start()
     {
     
+        gameManager = FindObjectOfType<GameManagerController>();   
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+       growUp= false;
+      
        // transformScala = GetComponent<Transform>();
     }
 
@@ -90,6 +99,45 @@ public class Payer : MonoBehaviour
            
 
         }
+        if (escalable == 1)
+            {
+                    Debug.Log(escalable);
+                    if (Input.GetKey(KeyCode.UpArrow))
+                    {
+			          
+                       
+                        rb.velocity = new Vector2(rb.velocity.x, 5);
+                        rb.gravityScale = 0;
+                        
+                        platformGround.enabled = false;
+                    }
+                    else
+                    {
+                        escalable = 0;
+                        platformGround.enabled = true;
+                    }
+
+                    if (Input.GetKey(KeyCode.DownArrow))
+                    {
+			          
+                       
+                        rb.velocity = new Vector2(rb.velocity.x, -5);
+                        rb.gravityScale = 0;
+                        platformGround.enabled = false;
+                    }
+                    else
+                    {
+                        escalable = 0;
+                       
+                    }
+            }
+            else
+            {
+                    escalable = 0;
+                    rb.gravityScale = 1;
+                    Debug.Log(escalable);
+            }
+                
          if (Input.GetKeyUp(KeyCode.C) && aux1<5){
              var game = FindObjectOfType<GameManagerController>();
             //Crear escudo
@@ -130,15 +178,16 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_Saltar);
             aux++;
 
-
+           
         }
        
    
        
-        if (Input.GetKeyDown(KeyCode.P)) animator.SetTrigger("Muerto");
-        {
+        if (Input.GetKeyDown(KeyCode.P)){
 
-        }
+         animator.SetTrigger("Muerto");
+         
+       }
     }
 
  
@@ -149,8 +198,12 @@ public class Payer : MonoBehaviour
         aux=0;
         if (other.gameObject.tag == "Enemy")
         {
+           
             animator.SetTrigger("Muerto");
+            gameManager.PerderVida();
+            gameManager.SaveGame();
            ChangeAnimation(ANIMATION_MUERTE) ;
+           
         }
         if (other.gameObject.name== "DarkHole")
         {
@@ -161,7 +214,7 @@ public class Payer : MonoBehaviour
             
         }
         if (other.gameObject.name == "Hongo"){
-
+            
             audioSource.PlayOneShot(ComerHongoclip);
             Destroy(other.gameObject);
             
@@ -180,8 +233,27 @@ public class Payer : MonoBehaviour
         if(other.gameObject.name == "Cartel_Cpoint"){
             lastCheckPointPosition = transform.position;
         }
+        if(other.gameObject.tag == "moneda" ){
+            audioSource.PlayOneShot(coin);
+            Destroy(other.gameObject);
+            gameManager.GanarPuntos(80);
+            gameManager.SaveGame();
+
+        }
 
     }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        var tag = collision.gameObject.tag;
+        if (tag == "Escalera")
+        {
+            escalable = 1;
+        }
+         
+    }
+
 
 
     private void ChangeAnimation(int animation)
