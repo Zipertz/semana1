@@ -13,6 +13,9 @@ TagManager:
   - moneda2
   - moneda3
   - final
+  - loopEnemigo
+  - loopEnemigoIzquierda
+  - loopEnemigoDerecha
   layers:
   - Default
   - TransparentFX

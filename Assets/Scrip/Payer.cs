@@ -33,6 +33,7 @@ public class Payer : MonoBehaviour
     //bool puedeSaltar = false;
     int aux = 0;
     int aux1 = 0;
+    int aux2 = 0;
     private GameManagerController gameManager;
     private Vector3 lastCheckPointPosition;
     // Start is called before the first frame update
@@ -196,12 +197,13 @@ public class Payer : MonoBehaviour
     {
         //puedeSaltar = false;
         aux=0;
-        if (other.gameObject.tag == "Enemy")
+        if ((other.gameObject.tag == "Enemy")&& aux2<3)
         {
            
             animator.SetTrigger("Muerto");
-            gameManager.PerderVida();
-            gameManager.SaveGame();
+            gameManager.PerderVida(3);
+             aux2++;
+
            ChangeAnimation(ANIMATION_MUERTE) ;
            
         }
@@ -233,26 +235,30 @@ public class Payer : MonoBehaviour
         if(other.gameObject.name == "Cartel_Cpoint"){
             lastCheckPointPosition = transform.position;
         }
+
+
         if(other.gameObject.tag == "moneda" ){
             audioSource.PlayOneShot(coin);
             Destroy(other.gameObject);
+            gameManager.GanarCoin1(1);
             gameManager.GanarPuntos(10);
-            gameManager.SaveGame();
+            
 
         }
          if(other.gameObject.tag == "moneda2" ){
             audioSource.PlayOneShot(coin);
             Destroy(other.gameObject);
+            gameManager.GanarCoin2(1);
             gameManager.GanarPuntos(20);
-            gameManager.SaveGame();
+            
 
         }
          if(other.gameObject.tag == "moneda3" ){
             audioSource.PlayOneShot(coin);
             Destroy(other.gameObject);
+            gameManager.GanarCoin3(1);
             gameManager.GanarPuntos(30);
-            gameManager.SaveGame();
-
+            
         }
         if (other.gameObject.tag == "final")    
         {
