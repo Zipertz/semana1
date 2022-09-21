@@ -263,7 +263,7 @@ public class Payer : MonoBehaviour
         if (other.gameObject.tag == "final")    
         {
            
-           Destroy(other.gameObject);
+           
            
             gameManager.SaveGame();
            

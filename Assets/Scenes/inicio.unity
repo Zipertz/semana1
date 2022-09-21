@@ -1255,7 +1255,6 @@ GameObject:
   - component: {fileID: 431568874}
   - component: {fileID: 431568873}
   - component: {fileID: 431568872}
-  - component: {fileID: 431568875}
   m_Layer: 0
   m_Name: banner_2
   m_TagString: final
@@ -1356,18 +1355,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &431568875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431568871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43a18d478bd77b74191f20252300c48c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &469861750
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,6 +2663,26 @@ MonoBehaviour:
   Coin1Text: {fileID: 403024418}
   Coin2Text: {fileID: 469861752}
   Coin3Text: {fileID: 1009613235}
+--- !u!1 &1578838025 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4393389870796390829, guid: cbcf18e895168b842ba581997e6e067b, type: 3}
+  m_PrefabInstance: {fileID: 672566296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1578838026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578838025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5da65765f5ee0438ee3934eec8e9a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PosX: 0
+  PosY: 0
+  Position: {x: 0, y: 0, z: 0}
 --- !u!1 &1605496394
 GameObject:
   m_ObjectHideFlags: 0
