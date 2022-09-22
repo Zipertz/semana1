@@ -20,7 +20,7 @@ public class GameManagerController : MonoBehaviour
    
 
 
-
+     
 
     private int score;
     private int lives;
@@ -54,7 +54,7 @@ public class GameManagerController : MonoBehaviour
 
 
     public void SaveGame(){
-        var filePath = Application.persistentDataPath + "/semana4.dat";
+        var filePath = Application.persistentDataPath + "/semana5.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -77,7 +77,7 @@ public class GameManagerController : MonoBehaviour
     }
 
     public void LoadGame(){
-            var filePath = Application.persistentDataPath + "/semana4.dat";
+            var filePath = Application.persistentDataPath + "/semana5.dat";
         FileStream file;
 
         if(File.Exists(filePath)){
@@ -170,6 +170,8 @@ public void GanarCoin3(int moneda3){
 
     this.lives -=1;
     PrintScreenLives();
+    
+
    }
 
     public void perderBala(int balas){

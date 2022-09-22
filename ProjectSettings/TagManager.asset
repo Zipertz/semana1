@@ -16,6 +16,9 @@ TagManager:
   - loopEnemigo
   - loopEnemigoIzquierda
   - loopEnemigoDerecha
+  - Suelo
+  - Nuve
+  - Nube
   layers:
   - Default
   - TransparentFX

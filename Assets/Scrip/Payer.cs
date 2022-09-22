@@ -2,19 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement ;
 public class Payer : MonoBehaviour
 {
     public float JumpForce = 5;
     public float velocity = 10;
     public float vcorrer = 20;
 
+
+   
     public AudioClip jumpclip;
     public AudioClip ComerHongoclip;
     public AudioClip coin;
     AudioSource audioSource;
 
     public GameObject bullet;
+    public GameObject bullet2;
+    public GameObject bullet3;
+
+    private float  tiempoPresionado=0;
+   private float  tiempoPresionado1=0;
+
+
     Rigidbody2D rb;
     public BoxCollider2D platformGround;
     private int escalable = 0;
@@ -45,6 +54,7 @@ public class Payer : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        platformGround =  GetComponent<BoxCollider2D>();
        growUp= false;
       
        // transformScala = GetComponent<Transform>();
@@ -112,25 +122,23 @@ public class Payer : MonoBehaviour
                         
                         platformGround.enabled = false;
                     }
-                    else
-                    {
-                        escalable = 0;
-                        platformGround.enabled = true;
-                    }
+                    
 
-                    if (Input.GetKey(KeyCode.DownArrow))
+                    else if (Input.GetKey(KeyCode.DownArrow))
                     {
 			          
-                       
                         rb.velocity = new Vector2(rb.velocity.x, -5);
-                        rb.gravityScale = 0;
-                        platformGround.enabled = false;
+                        
+                        
                     }
-                    else
-                    {
+                   
+                    
+                    
                         escalable = 0;
+                        platformGround.enabled = true;
+                    
                        
-                    }
+                    
             }
             else
             {
@@ -171,6 +179,7 @@ public class Payer : MonoBehaviour
                 ChangeAnimation(ANIMATION_Saltar);
             } 
 
+    
 
           if (Input.GetKeyDown(KeyCode.Space)  && aux<2)
         {
@@ -189,9 +198,134 @@ public class Payer : MonoBehaviour
          animator.SetTrigger("Muerto");
          
        }
+
+// Bala cargada 1
+        if (Input.GetKey(KeyCode.F)  ){
+
+           
+           tiempoPresionado += Time.deltaTime;
+            
+        }
+   
+        if (Input.GetKeyUp(KeyCode.F) && tiempoPresionado >=1)
+             {
+                
+                RealseCarge();
+               
+                
+             }
+
+        if (Input.GetKeyUp(KeyCode.F) && tiempoPresionado <1 ){
+
+          
+           tiempoPresionado += Time.deltaTime;
+       
+       
+             }     
+
+
+
+// Bala cargada 2
+        if (Input.GetKey(KeyCode.D)  ){
+
+           
+           tiempoPresionado1 += Time.deltaTime;
+        
+        }
+   
+        if (Input.GetKeyUp(KeyCode.D) && tiempoPresionado1 >=2)
+             {
+                RealseCarge3();
+                
+                
+             }
+
+        if (Input.GetKeyUp(KeyCode.D) && tiempoPresionado1 <2 ){
+
+           
+           tiempoPresionado1 += Time.deltaTime;
+        
+             } 
+       
+     
+
+
+
+
     }
 
+     void RealseCarge ()
+     {
+
+                var game = FindObjectOfType<GameManagerController>();
+            //Crear escudo
+               if(sr.flipX == false){
+               
+                
+                var shieldPosition = transform.position + new Vector3(1,0,0);
+                var gb = Instantiate(bullet2,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala2>();
+                controller.SetRightDirection(); 
+                game.perderBala(5);
+                aux1++;
+                
+             }
+             if(sr.flipX==true){
+                
+                
+                var shieldPosition = transform.position + new Vector3(-1,0,0);
+                var gb = Instantiate(bullet2,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala2>();
+                controller.SetLeftDirection(); 
+                game.perderBala(5);
+                aux1++;
+               
+             }
+            
+             tiempoPresionado=0;
+
+     }
  
+    
+     void RealseCarge3 ()
+     {
+
+                var game = FindObjectOfType<GameManagerController>();
+            //Crear escudo
+               if(sr.flipX == false){
+               
+                
+                var shieldPosition = transform.position + new Vector3(1,0,0);
+                var gb = Instantiate(bullet3,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala3>();
+                controller.SetRightDirection(); 
+                game.perderBala(5);
+                aux1++;
+                
+             }
+             if(sr.flipX==true){
+                
+                
+                var shieldPosition = transform.position + new Vector3(-1,0,0);
+                var gb = Instantiate(bullet3,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala3>();
+                controller.SetLeftDirection(); 
+                game.perderBala(5);
+                aux1++;
+               
+             }
+            tiempoPresionado1=0;
+            
+
+     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -202,8 +336,14 @@ public class Payer : MonoBehaviour
            
             animator.SetTrigger("Muerto");
             gameManager.PerderVida(3);
-             aux2++;
 
+             aux2++;
+            if(aux2 == 3)
+            {
+                
+                
+                SceneManager.LoadScene(1);
+            }
            ChangeAnimation(ANIMATION_MUERTE) ;
            
         }
@@ -297,6 +437,9 @@ public class Payer : MonoBehaviour
 
 
     }
+
+
+ 
 }
 
     
