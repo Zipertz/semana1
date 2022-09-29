@@ -19,6 +19,9 @@ TagManager:
   - Suelo
   - Nuve
   - Nube
+  - GuardarPocicion
+  - Bala
+  - Bala3
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public class Payer : MonoBehaviour
     public float velocity = 10;
     public float vcorrer = 20;
 
-
+private float defaultGravity;
    
     public AudioClip jumpclip;
     public AudioClip ComerHongoclip;
@@ -39,6 +39,8 @@ public class Payer : MonoBehaviour
     const int ANIMATION_ATACAR = 3;
     const int ANIMATION_Saltar = 4;
     const int ANIMATION_MUERTE = 5;
+    const int ANIMATION_DESLIZAR = 6;
+    const int ANIMATION_ESCALAR = 7;
     //bool puedeSaltar = false;
     int aux = 0;
     int aux1 = 0;
@@ -56,7 +58,7 @@ public class Payer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         platformGround =  GetComponent<BoxCollider2D>();
        growUp= false;
-      
+       defaultGravity = rb.gravityScale;
        // transformScala = GetComponent<Transform>();
     }
 
@@ -102,6 +104,30 @@ public class Payer : MonoBehaviour
             ChangeAnimation(ANIMATION_CORRER);
         }
 
+        
+
+
+    if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.N))
+        {
+            
+          rb.velocity = new Vector2(-velocity, rb.velocity.y);
+            sr.flipX = true;
+            
+            ChangeAnimation(ANIMATION_DESLIZAR);
+        }
+
+         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.N))
+        {
+            rb.velocity = new Vector2(velocity, rb.velocity.y);
+            sr.flipX = false;
+            
+            ChangeAnimation(ANIMATION_DESLIZAR);
+        }
+
+
+
+
+
          
 
         else if (Input.GetKeyDown(KeyCode.Z))
@@ -112,7 +138,7 @@ public class Payer : MonoBehaviour
         }
         if (escalable == 1)
             {
-                    Debug.Log(escalable);
+                    
                     if (Input.GetKey(KeyCode.UpArrow))
                     {
 			          
@@ -121,14 +147,16 @@ public class Payer : MonoBehaviour
                         rb.gravityScale = 0;
                         
                         platformGround.enabled = false;
+                       
+                        ChangeAnimation( ANIMATION_ESCALAR);
                     }
                     
 
                     else if (Input.GetKey(KeyCode.DownArrow))
                     {
-			          
+			            rb.gravityScale = 0;
                         rb.velocity = new Vector2(rb.velocity.x, -5);
-                        
+                        ChangeAnimation( ANIMATION_ESCALAR);
                         
                     }
                    
@@ -140,41 +168,14 @@ public class Payer : MonoBehaviour
                        
                     
             }
-            else
+            if( escalable == 0)
             {
-                    escalable = 0;
-                    rb.gravityScale = 1;
-                    Debug.Log(escalable);
+                   
+                    rb.gravityScale = defaultGravity;
+                    
             }
                 
-         if (Input.GetKeyUp(KeyCode.C) && aux1<5){
-             var game = FindObjectOfType<GameManagerController>();
-            //Crear escudo
-               if(sr.flipX == false){
-               
-                
-                var shieldPosition = transform.position + new Vector3(1,0,0);
-                var gb = Instantiate(bullet,
-                                 shieldPosition,
-                                 Quaternion.identity) as GameObject;
-                var controller =gb.GetComponent<bala>();
-                controller.SetRightDirection(); 
-                game.perderBala(5);
-                aux1++;
-             }
-             if(sr.flipX==true){
-                
-                
-                var shieldPosition = transform.position + new Vector3(-1,0,0);
-                var gb = Instantiate(bullet,
-                                 shieldPosition,
-                                 Quaternion.identity) as GameObject;
-                var controller =gb.GetComponent<bala>();
-                controller.SetLeftDirection(); 
-                game.perderBala(5);
-                aux1++;
-             }
-             }
+       
               else if(aux==1){
                 ChangeAnimation(ANIMATION_Saltar);
             } 
@@ -200,28 +201,55 @@ public class Payer : MonoBehaviour
        }
 
 // Bala cargada 1
-        if (Input.GetKey(KeyCode.F)  ){
+        if (Input.GetKey(KeyCode.C)  ){
 
            
            tiempoPresionado += Time.deltaTime;
-            
+            Debug.Log(tiempoPresionado);
         }
    
-        if (Input.GetKeyUp(KeyCode.F) && tiempoPresionado >=1)
+        if (Input.GetKeyUp(KeyCode.C)&& aux1<10)
              {
                 
-                RealseCarge();
+                if(tiempoPresionado < 3)
+                {
+                    var game = FindObjectOfType<GameManagerController>();
+            //Crear escudo
+               if(sr.flipX == false){
                
+                
+                var shieldPosition = transform.position + new Vector3(1,0,0);
+                var gb = Instantiate(bullet,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala>();
+                controller.SetRightDirection(); 
+                game.perderBala(10);
+                aux1++;
+             }
+             if(sr.flipX==true){
+                
+                
+                var shieldPosition = transform.position + new Vector3(-1,0,0);
+                var gb = Instantiate(bullet,
+                                 shieldPosition,
+                                 Quaternion.identity) as GameObject;
+                var controller =gb.GetComponent<bala>();
+                controller.SetLeftDirection(); 
+                game.perderBala(10);
+                aux1++;
+             }
+                }
+            
+            if(tiempoPresionado > 5)
+                {
+                    RealseCarge3();
+                }
+               tiempoPresionado = 0;
                 
              }
 
-        if (Input.GetKeyUp(KeyCode.F) && tiempoPresionado <1 ){
-
           
-           tiempoPresionado += Time.deltaTime;
-       
-       
-             }     
 
 
 
@@ -305,7 +333,7 @@ public class Payer : MonoBehaviour
                                  Quaternion.identity) as GameObject;
                 var controller =gb.GetComponent<bala3>();
                 controller.SetRightDirection(); 
-                game.perderBala(5);
+                game.perderBala(10);
                 aux1++;
                 
              }
@@ -318,7 +346,7 @@ public class Payer : MonoBehaviour
                                  Quaternion.identity) as GameObject;
                 var controller =gb.GetComponent<bala3>();
                 controller.SetLeftDirection(); 
-                game.perderBala(5);
+                game.perderBala(10);
                 aux1++;
                
              }
@@ -347,13 +375,20 @@ public class Payer : MonoBehaviour
            ChangeAnimation(ANIMATION_MUERTE) ;
            
         }
-        if (other.gameObject.name== "DarkHole")
+        if (other.gameObject.name== "DarkHole" && aux2<3)
         {
+            gameManager.PerderVida(3);
             if (lastCheckPointPosition !=null)
             {
                 transform.position = lastCheckPointPosition;
             }
-            
+            aux2++;
+            if(aux2 == 3)
+            {
+                
+                
+                SceneManager.LoadScene(1);
+            }
         }
         if (other.gameObject.name == "Hongo"){
             

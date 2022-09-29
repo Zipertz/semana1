@@ -41,8 +41,8 @@ public void LoadData(){
 
 void OnTriggerEnter2D(Collider2D Guardar) {
     
-if(Guardar.CompareTag ("final")){
-
+if(Guardar.CompareTag ("GuardarPocicion")){
+    
     SavePosition();
 
 

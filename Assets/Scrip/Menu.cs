@@ -8,15 +8,28 @@ public class Menu : MonoBehaviour
     public Sprite[] sprites;
     private int next = 1;
 
+   private GameManagerController gameManager;
+    private posisionGuardado PosGuar;
 
-
-
+void Start()
+    {
+    
+        gameManager = FindObjectOfType<GameManagerController>();   
+       PosGuar = FindObjectOfType<posisionGuardado>(); 
+    }
 
     public void PlayGame ()
-    {
+    {   
+
 
        SceneManager.LoadScene(1);
 
+    }
+
+    public void CargarPartida()
+    {
+      SceneManager.LoadScene(1);
+     
     }
 
      public void CambioPersonaje ()

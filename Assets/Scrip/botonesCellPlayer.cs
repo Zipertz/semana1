@@ -6,7 +6,8 @@ public class botonesCellPlayer : MonoBehaviour
 {
 
     public float JumpForce = 5;
-    public float velocity = 10;
+    public float velocity = 0;
+    public float defaultVelocity=14;
     int aux = 0;
     int aux1 = 0;
     Rigidbody2D rb;
@@ -25,28 +26,46 @@ public class botonesCellPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movimiento();
+    }
+
+
+    private void Movimiento()
+    {
+        Walk();
         
+    }
+
+
+    private void Walk()
+    {
+        rb.velocity = new Vector2(velocity,rb.velocity.y);
+        if(velocity < 0)
+            sr.flipX = true;
+
+        if(velocity > 0)
+            sr.flipX = false;
     }
 
     public void MoverDerecha()
     {
-          rb.velocity = new Vector2(velocity, rb.velocity.y);
-           sr.flipX = false;
+        velocity = defaultVelocity;
+        
 
     }
 
     public void MoverIzquierda()
     {
 
-         rb.velocity = new Vector2(-velocity, rb.velocity.y);
+          velocity = -defaultVelocity;
         
-           sr.flipX = true;
+           
     }
 
     public void Quieto()
     {
 
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        velocity=0;
     }
 
 

@@ -36,9 +36,9 @@ public class bala3 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other){
         if(other.gameObject.tag =="Enemy" ){
-            Destroy(other.gameObject);
+           // Destroy(other.gameObject);
             Destroy(this.gameObject);
-            gameManager.GanarPuntos(10);
+           // gameManager.GanarPuntos(10);
             
            
         }

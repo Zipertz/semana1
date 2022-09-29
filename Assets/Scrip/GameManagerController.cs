@@ -12,6 +12,7 @@ public class GameManagerController : MonoBehaviour
     public Text BalasText;
     public Text scoreText;
     public Text livesText;
+    public Text EnemigosText;
     public Text Coin1Text;
     public Text Coin2Text;
     public Text Coin3Text;
@@ -19,7 +20,7 @@ public class GameManagerController : MonoBehaviour
 
    
 
-
+    private int enemigos;
      
 
     private int score;
@@ -37,7 +38,9 @@ public class GameManagerController : MonoBehaviour
     {
         score=0;
         lives=3;
-        balas=5;
+        balas=10;
+
+        enemigos=5;
 
         coin1=0;
         coin2=0;
@@ -47,14 +50,16 @@ public class GameManagerController : MonoBehaviour
         PrintScreenCoin2();
         PrintScreenCoin3();
         PrintScreenLives();
+        PrintScreenEnemigos();
         PrintScoreInScreen();
+       
         LoadGame();
     }
 
 
 
     public void SaveGame(){
-        var filePath = Application.persistentDataPath + "/semana5.dat";
+        var filePath = Application.persistentDataPath + "/semana8-2.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -77,7 +82,7 @@ public class GameManagerController : MonoBehaviour
     }
 
     public void LoadGame(){
-            var filePath = Application.persistentDataPath + "/semana5.dat";
+            var filePath = Application.persistentDataPath + "/semana8-2.dat";
         FileStream file;
 
         if(File.Exists(filePath)){
@@ -118,6 +123,14 @@ public class GameManagerController : MonoBehaviour
         return lives;
 
     }
+    public int Enemigos(){
+
+        return enemigos;
+
+    }
+
+
+
       public int Balas(){
 
         return balas;
@@ -174,6 +187,17 @@ public void GanarCoin3(int moneda3){
 
    }
 
+    public void PerderEnemigos(int enemigos){
+
+    this.enemigos -=1;
+    PrintScreenEnemigos();
+    
+
+   }
+
+
+
+
     public void perderBala(int balas){
      this.balas-=1;
      PrintScoreInScreen();
@@ -190,6 +214,12 @@ public void GanarCoin3(int moneda3){
 
    }
 
+   
+    
+    private void PrintScreenEnemigos(){
+        EnemigosText.text = "Enemigos: " + enemigos;
+
+   }
   
     private void PrintScoreInScreen(){
         BalasText.text = "Balas: " + balas;
