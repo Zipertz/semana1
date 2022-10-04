@@ -14,6 +14,7 @@ public class enemy : MonoBehaviour
     private int direction;
     private int cont1 = 0;
     private int cont2 = 0;
+    private float  tiempoPresionado=0;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,7 @@ public class enemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   tiempoPresionado += Time.deltaTime;
         rb.velocity = new Vector2 (velocity,0);
         ChangeAnimation(ANIMATION_CAMINAR);
         
@@ -48,7 +49,7 @@ public class enemy : MonoBehaviour
          if (other.gameObject.tag == "Bala")
         {
             cont1++;
-            if (cont1 == 3)
+            if (cont1 == 2)
             {
                 Destroy(this.gameObject);
                 gameManager.PerderEnemigos(5);

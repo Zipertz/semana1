@@ -16,13 +16,15 @@ public class GameManagerController : MonoBehaviour
     public Text Coin1Text;
     public Text Coin2Text;
     public Text Coin3Text;
+   public Text EnemigossText;
     //balas puntos 
 
    
 
     private int enemigos;
      
-
+    private int enemioss;
+    private int Genemigos;
     private int score;
     private int lives;
     private int balas;
@@ -40,7 +42,8 @@ public class GameManagerController : MonoBehaviour
         lives=3;
         balas=10;
 
-        enemigos=5;
+        enemigos=0;
+        Genemigos=0;
 
         coin1=0;
         coin2=0;
@@ -52,6 +55,7 @@ public class GameManagerController : MonoBehaviour
         PrintScreenLives();
         PrintScreenEnemigos();
         PrintScoreInScreen();
+        PrintScreenGanarEnemigos();
        
         LoadGame();
     }
@@ -110,6 +114,7 @@ public class GameManagerController : MonoBehaviour
         PrintScreenCoin1();
         PrintScreenCoin2();
         PrintScreenCoin3();
+        
     }
 
 
@@ -128,7 +133,11 @@ public class GameManagerController : MonoBehaviour
         return enemigos;
 
     }
+    public int GGenemigos(){
 
+        return Genemigos;
+
+    }
 
 
       public int Balas(){
@@ -189,12 +198,20 @@ public void GanarCoin3(int moneda3){
 
     public void PerderEnemigos(int enemigos){
 
-    this.enemigos -=1;
+    this.enemigos +=1;
     PrintScreenEnemigos();
     
 
    }
 
+
+    public void GanarEnemigos(int Genemigos){
+
+    enemioss += Genemigos;
+    PrintScreenGanarEnemigos();
+    
+
+   }
 
 
 
@@ -237,6 +254,13 @@ public void GanarCoin3(int moneda3){
    }
     private void PrintScreenCoin3(){
         Coin3Text.text = "Tipo Moneda 3: " + coin3;
+
+   }
+
+   
+
+   private void PrintScreenGanarEnemigos(){
+        EnemigossText.text = "Enemigos Eliminados: " + enemioss;
 
    }
 }
